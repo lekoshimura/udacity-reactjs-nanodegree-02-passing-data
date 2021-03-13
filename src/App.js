@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import FavoritedMovie from './FavoritedMovie';
-import NonFavoritedMovie from './NonFavoritedMovie';
+import MoviesList from './MoviesList';
 
 const profiles = [
   {
@@ -93,14 +92,8 @@ const movies = {
   },
 };
 
-class App extends Component {
-  
-  constructor(props) {
-    super(props);
-    this.moviesArray = [];
-    this.buildArrayMovies();
-  };
-  
+class App extends Component {  
+ 
   buildArrayMovies() {
     const numItems = Object.keys(movies).length;
     for (let i = 1; i <= numItems; i++) {
@@ -127,16 +120,11 @@ class App extends Component {
           <h1 className="App-title">ReactND - Coding Practice</h1>
         </header>
         <h2>How Popular is Your Favorite Movie?</h2>
-        <ol>
-          {this.moviesArray.map(movie => (
-            <li key={movie.id}>
-              {movie.whoFavoritedTheMovie.length > 0
-                ? <FavoritedMovie movieName={movie.name} who={movie.whoFavoritedTheMovie} />
-                : <NonFavoritedMovie movieName={movie.name} />
-              }
-            </li>
-          ))}
-        </ol>
+        <MoviesList 
+          profiles = {profiles}
+          users = {users}
+          movies = {movies}
+        />
       </div>
     );
   };

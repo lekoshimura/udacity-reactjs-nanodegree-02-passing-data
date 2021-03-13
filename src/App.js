@@ -4,12 +4,6 @@ import './App.css';
 import FavoritedMovie from './FavoritedMovie';
 import NonFavoritedMovie from './NonFavoritedMovie';
 
-/*
-Display a list of movies where each movie contains a list of users that favorited it.
-
-For detailed instructions, refer to instructions.md.
-*/
-
 const profiles = [
   {
     id: 1,
@@ -99,29 +93,33 @@ const movies = {
   },
 };
 
-let buildArrayMovies = function () {
-  const moviesArray = [];
-  const numItems = Object.keys(movies).length;
-  for (let i = 1; i <= numItems; i++) {
-    moviesArray.push({
-      id: movies[i].id,
-      name: movies[i].name,
-      whoFavoritedTheMovie: whoFavoritedTheMovie(movies[i].id)
-    });
-  };
-  return moviesArray;
-};
-
-let whoFavoritedTheMovie = function (movieId) {
-  let who = profiles
-    .filter(profile => profile.favoriteMovieID === movieId.toString())
-    .map(profile => { return { userID: profile.userID, userName: users[profile.userID].name } });
-  return who;
-};
-
 class App extends Component {
+  
+  constructor(props) {
+    super(props);
+    this.moviesArray = [];
+    this.buildArrayMovies();
+  };
+  
+  buildArrayMovies() {
+    const numItems = Object.keys(movies).length;
+    for (let i = 1; i <= numItems; i++) {
+      this.moviesArray.push({
+        id: movies[i].id,
+        name: movies[i].name,
+        whoFavoritedTheMovie: this.whoFavoritedTheMovie(movies[i].id)
+      });
+    };
+  };
+  
+  whoFavoritedTheMovie(movieId) {
+    let who = profiles
+      .filter(profile => profile.favoriteMovieID === movieId.toString())
+      .map(profile => { return { userID: profile.userID, userName: users[profile.userID].name } });
+    return who;
+  };  
+  
   render() {
-    const moviesArray = buildArrayMovies();
     return (
       <div className="App">
         <header className="App-header">
@@ -130,7 +128,7 @@ class App extends Component {
         </header>
         <h2>How Popular is Your Favorite Movie?</h2>
         <ol>
-          {moviesArray.map(movie => (
+          {this.moviesArray.map(movie => (
             <li key={movie.id}>
               {movie.whoFavoritedTheMovie.length > 0
                 ? <FavoritedMovie movieName={movie.name} who={movie.whoFavoritedTheMovie} />
@@ -141,7 +139,7 @@ class App extends Component {
         </ol>
       </div>
     );
-  }
-}
+  };
+};
 
 export default App;

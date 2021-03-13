@@ -6,11 +6,19 @@ class UsersList extends React.Component {
     return (
       <div>
         {whoFavoritedTheMovie.length === 0
-          ? <p>None of the current users liked this movie</p>
-          : <div>
-              <p>Liked By:</p>
-              <ul>{whoFavoritedTheMovie.map(who => (<li key={who.userID}>{who.userName}</li>))}</ul>
-            </div>
+          ? ( 
+              <p>None of the current users liked this movie</p>
+            )
+          : (
+              <div>
+                <p>Liked By:</p>
+                <ul>
+                  {whoFavoritedTheMovie.map(who => (
+                    <li key={who.userID}>{who.userName}</li>
+                  ))}
+                </ul>
+              </div>
+            )
         }
       </div>
     )
